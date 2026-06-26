@@ -1,2 +1,19 @@
 # Hunar-intern-task-2
-RandomForestRegressor from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score from sklearn.model_selection import train_test_split  # 1. Load the Dataset # Make sure your housing dataset CSV is in the same directory try:     df = pd.read_csv("housing_data.csv")     print("Dataset loaded successfully!") except FileNotFoundError:     print(         "Error: 'housing_data.csv' not found. Please check your file path."     )     # Creating dummy data for demonstration purposes if file is missing     data = {         "city": ["Mumbai", "Delhi", "Bangalore", "Mumbai", "Delhi"],         "sqft": [1200, 1500, 1800, 900, 2200],         "bedrooms": [2, 3, 3, 1, 4],         "bathrooms": [2, 2, 3, 1, 4],         "price": [12000000, 15000000, 18000000, 8500000, 24000000],     }     df = pd.DataFrame(data)  # 2. Data Preprocessing & Feature Engineering print("\n--- Preprocessing Data ---")  # Drop unique identifier or non-predictive columns if they exist (e.g., 'Id') if "Id" in df.columns:     df = df.drop(columns=["Id"])  # Handle Categorical Columns (e.g., City names) using One-Hot Encoding categorical_cols = df.select_dtypes(include=["object"]).columns.tolist() if categorical_cols:     print(f"Encoding categorical features: {categorical_cols}")     df = pd.get_dummies(df, columns=categorical_cols, drop_first=True)  # Split into Features (X) and Target variable (y) # Assuming the target column is named 'price' X = df.drop(columns=["price"]) y = df["price"]  # 3. Train-Test Split (80% Train, 20% Test) X_train, X_test, y_train, y_test = train_test_split(     X, y, test_size=0.2, random_state=42 )  # 4. Initialize and Train the Random Forest Regressor print("\n--- Training Random Forest Regressor ---") rf_model = RandomForestRegressor 
+# House Price Prediction Pipeline (Task-2)
+
+This repository contains a robust, end-to-end Machine Learning pipeline designed to predict housing prices using a **Random Forest Regressor**. It includes comprehensive data preprocessing, automatic handling of categorical variables via one-hot encoding, model training, and performance evaluation.
+
+## 🚀 Features
+* **Automated Data Preprocessing**: Automatically drops non-predictive identifier columns (like `Id`) if present.
+* **Categorical Encoding**: Dynamically detects and applies One-Hot Encoding to categorical columns (such as `city`).
+* **Robust Modeling**: Employs an ensemble-based `Random Forest Regressor` to capture complex, non-linear relationships in housing data better than standard linear models.
+* **Performance Metrics**: Outputs comprehensive evaluation diagnostics including MAE, RMSE, and $R^2$ Score.
+* **Feature Importance**: Evaluates and displays which structural or geographical features impact housing prices the most.
+
+---
+
+## 📁 Project Structure
+```text
+├── housing_data.csvtext     # Your housing dataset (ensure this matches your file name)
+├── house_price_pred.py     # Main Python execution script
+└── README.md               # Project documentation
